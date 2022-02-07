@@ -7,7 +7,10 @@
 		{
 			"Name": "GDINFMG_M02",
 			"Type": "Runtime",
-			"LoadingPhase": "Default"
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine"
+			]
 		}
 	]
 }
