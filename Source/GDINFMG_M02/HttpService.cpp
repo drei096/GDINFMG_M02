@@ -2,6 +2,9 @@
 
 
 #include "HttpService.h"
+
+#include <string>
+
 #include "GDINFMG_M02.h"
 
 // Sets default values
@@ -25,10 +28,9 @@ void AHttpService::BeginPlay()
 		
 	Http = &FHttpModule::Get();
 
-	FRequest_Login LoginCredentials;
-	LoginCredentials.email = TEXT("asdf@asdf.com");
-	LoginCredentials.password = TEXT("asdfasdf");
-	TestGet(LoginCredentials);
+	FRequest_Summary summaryCredentials;
+	summaryCredentials.userMainID = 808123456;
+	TestGet(summaryCredentials);
 	//Login(LoginCredentials);
 }
 
@@ -103,18 +105,18 @@ void AHttpService::GetStructFromJsonString(FHttpResponsePtr Response, StructType
 
 
 
-void AHttpService::Login(FRequest_Login LoginCredentials) {
+void AHttpService::Login(FRequest_Summary LoginCredentials) {
 	FString ContentJsonString;
-	GetJsonStringFromStruct<FRequest_Login>(LoginCredentials, ContentJsonString);
+	GetJsonStringFromStruct<FRequest_Summary>(LoginCredentials, ContentJsonString);
 
 	TSharedRef<IHttpRequest, ESPMode::ThreadSafe> Request = PostRequest("User/login", ContentJsonString);
 	Request->OnProcessRequestComplete().BindUObject(this, &AHttpService::LoginResponse);
 	Send(Request);
 }
 
-void AHttpService::TestGet(FRequest_Login LoginCredentials)
+void AHttpService::TestGet(FRequest_Summary LoginCredentials)
 {
-	TSharedRef<IHttpRequest, ESPMode::ThreadSafe> Request = GetRequest("User/login");
+	TSharedRef<IHttpRequest, ESPMode::ThreadSafe> Request = GetRequest("User/808123456");
 	Request->OnProcessRequestComplete().BindUObject(this, &AHttpService::LoginResponse);
 	Send(Request);
 }
@@ -123,12 +125,22 @@ void AHttpService::TestGet(FRequest_Login LoginCredentials)
 void AHttpService::LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful) {
 	if (!ResponseIsValid(Response, bWasSuccessful)) return;
 
-	FResponse_Login LoginResponse;
-	GetStructFromJsonString<FResponse_Login>(Response, LoginResponse);
+	FResponse_SummaryHolder LoginResponse;
+	GetStructFromJsonString<FResponse_SummaryHolder>(Response, LoginResponse);
 
-	SetAuthorizationHash(LoginResponse.hash);
+	TSharedPtr<FJsonObject> JsonObj = MakeShareable(new FJsonObject());
 
-	UE_LOG(LogTemp, Warning, TEXT("Id is: %d"), LoginResponse.id);
-	UE_LOG(LogTemp, Warning, TEXT("Name is: %s"), *LoginResponse.name);
+	FString dataString = Response->GetContentAsString();
+	TSharedRef<TJsonReader<TCHAR>> Reader = TJsonReaderFactory<TCHAR>::Create(*dataString);
+	if (FJsonSerializer::Deserialize(Reader, JsonObj))
+	{
+		TArray<TSharedPtr<FJsonValue>> ArrayObj = JsonObj->GetArrayField("data");
+
+		//how to display number???
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *ArrayObj.Last()->AsObject()->GetStringField("wayPUnlock"));
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *ArrayObj.Last()->AsObject()->GetStringField("noRemarkable"));
+	}
+
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *Response->GetContentAsString());
 }
 

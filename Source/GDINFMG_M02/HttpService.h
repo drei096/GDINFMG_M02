@@ -11,36 +11,43 @@
 
 
 USTRUCT()
-struct FQueryData
-{
+struct FRequest_Summary {
 		GENERATED_BODY()
-		UPROPERTY() int id;
-		UPROPERTY() FString name;
-		UPROPERTY() int score;
-		FQueryData() {}
+        UPROPERTY() int userMainID;
+
+		FRequest_Summary() {}
+};
+
+
+
+USTRUCT()
+struct FResponse_Summary {
+		GENERATED_BODY()
+		UPROPERTY() int ACuli;
+		UPROPERTY() int CChestOpen;
+		UPROPERTY() int DomUnlock;
+		UPROPERTY() int EChestOpen;
+		UPROPERTY() int ECuli;
+		UPROPERTY() int GCuli;
+		UPROPERTY() int LChestOpen;
+		UPROPERTY() int PChestOpen;
+		UPROPERTY() FString SAbyss;
+		UPROPERTY() int achievements;
+		UPROPERTY() int characters;
+		UPROPERTY() int daysActive;
+		UPROPERTY() int noRemarkable;
+		UPROPERTY() int wayPUnlock;
+
+		FResponse_Summary() {}
 };
 
 USTRUCT()
-struct FRequest_Login {
-		GENERATED_BODY()
-        UPROPERTY() FString email;
-		UPROPERTY() FString password;
+struct FResponse_SummaryHolder {
+	GENERATED_BODY()
+		UPROPERTY() FResponse_Summary Response_Summary;
 
-		FRequest_Login() {}
+	FResponse_SummaryHolder() {}
 };
-
-USTRUCT()
-struct FResponse_Login {
-		GENERATED_BODY()
-        UPROPERTY() int id;
-		UPROPERTY() FString name;
-		UPROPERTY() FString hash;
-		UPROPERTY() FQueryData data;
-
-		FResponse_Login() {}
-};
-
-
 
 UCLASS(Blueprintable, hideCategories = (Rendering, Replication, Input, Actor, "Actor Tick"))
 class GDINFMG_M02_API AHttpService : public AActor
@@ -72,7 +79,7 @@ public:
 	AHttpService();
 	virtual void BeginPlay() override;
 
-	void Login(FRequest_Login LoginCredentials);
-	void TestGet(FRequest_Login LoginCredentials);
+	void Login(FRequest_Summary LoginCredentials);
+	void TestGet(FRequest_Summary summaryCredentials);
 	void LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 };
