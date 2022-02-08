@@ -11,6 +11,16 @@
 
 
 USTRUCT()
+struct FQueryData
+{
+		GENERATED_BODY()
+		UPROPERTY() int id;
+		UPROPERTY() FString name;
+		UPROPERTY() int score;
+		FQueryData() {}
+};
+
+USTRUCT()
 struct FRequest_Login {
 		GENERATED_BODY()
         UPROPERTY() FString email;
@@ -25,9 +35,12 @@ struct FResponse_Login {
         UPROPERTY() int id;
 		UPROPERTY() FString name;
 		UPROPERTY() FString hash;
+		UPROPERTY() FQueryData data;
 
 		FResponse_Login() {}
 };
+
+
 
 UCLASS(Blueprintable, hideCategories = (Rendering, Replication, Input, Actor, "Actor Tick"))
 class GDINFMG_M02_API AHttpService : public AActor
