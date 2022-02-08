@@ -137,8 +137,20 @@ void AHttpService::LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Respo
 		TArray<TSharedPtr<FJsonValue>> ArrayObj = JsonObj->GetArrayField("data");
 
 		//how to display number???
-		UE_LOG(LogTemp, Warning, TEXT("%s"), *ArrayObj.Last()->AsObject()->GetStringField("wayPUnlock"));
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *ArrayObj.Last()->AsObject()->GetStringField("ACuli"));
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *ArrayObj.Last()->AsObject()->GetStringField("CChestOpen"));
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *ArrayObj.Last()->AsObject()->GetStringField("DomUnlock"));
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *ArrayObj.Last()->AsObject()->GetStringField("EChestOpen"));
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *ArrayObj.Last()->AsObject()->GetStringField("ECuli"));
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *ArrayObj.Last()->AsObject()->GetStringField("GCuli"));
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *ArrayObj.Last()->AsObject()->GetStringField("LChestOpen"));
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *ArrayObj.Last()->AsObject()->GetStringField("PChestOpen"));
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *ArrayObj.Last()->AsObject()->GetStringField("SAbyss"));
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *ArrayObj.Last()->AsObject()->GetStringField("achievements"));
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *ArrayObj.Last()->AsObject()->GetStringField("characters"));
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *ArrayObj.Last()->AsObject()->GetStringField("daysActive"));
 		UE_LOG(LogTemp, Warning, TEXT("%s"), *ArrayObj.Last()->AsObject()->GetStringField("noRemarkable"));
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *ArrayObj.Last()->AsObject()->GetStringField("wayPUnlock"));
 	}
 
 	UE_LOG(LogTemp, Warning, TEXT("%s"), *Response->GetContentAsString());
