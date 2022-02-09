@@ -11,17 +11,17 @@
 
 
 USTRUCT()
-struct FRequest_Summary {
+struct FRequest_Summary
+{
 		GENERATED_BODY()
         UPROPERTY() int userMainID;
 
 		FRequest_Summary() {}
 };
 
-
-
 USTRUCT()
-struct FResponse_Summary {
+struct FResponse_Summary
+{
 		GENERATED_BODY()
 		UPROPERTY() int ACuli;
 		UPROPERTY() int CChestOpen;
@@ -42,12 +42,79 @@ struct FResponse_Summary {
 };
 
 USTRUCT()
-struct FResponse_SummaryHolder {
+struct FRequest_WorldExplo
+{
+		GENERATED_BODY()
+		UPROPERTY() int userMainID;
+		UPROPERTY() FString region;
+
+		FRequest_WorldExplo() {}
+};
+
+USTRUCT()
+struct FResponse_WorldExplo
+{
+		GENERATED_BODY()
+		UPROPERTY() int explorationProgress;
+		UPROPERTY() int frostTreeLevel;
+		UPROPERTY() int reputationLevel;
+		UPROPERTY() int sakuraFavorLevel;
+
+
+		FResponse_WorldExplo() {}
+};
+
+USTRUCT()
+struct FRequest_SereniteaPot
+{
+	GENERATED_BODY()
+		UPROPERTY() int userMainID;
+
+	FRequest_SereniteaPot() {}
+};
+
+USTRUCT()
+struct FResponse_SereniteaPot
+{
+		GENERATED_BODY()
+		UPROPERTY() int FurnishingsObtained;
+		UPROPERTY() int highestAdeptalEnergy;
+		UPROPERTY() int trustRank;
+		UPROPERTY() int visitorCount;
+
+
+	FResponse_SereniteaPot() {}
+};
+
+/****************RESPONSE HOLDERS*********************/
+USTRUCT()
+struct FResponse_SummaryHolder
+{
 	GENERATED_BODY()
 		UPROPERTY() FResponse_Summary Response_Summary;
 
 	FResponse_SummaryHolder() {}
 };
+
+USTRUCT()
+struct FResponse_WorldExploHolder
+{
+	GENERATED_BODY()
+		UPROPERTY() FResponse_WorldExplo Response_WorldExploration;
+
+	FResponse_WorldExploHolder() {}
+};
+
+USTRUCT()
+struct FResponse_SereniteaPotHolder
+{
+	GENERATED_BODY()
+		UPROPERTY() FResponse_SereniteaPot Response_SereniteaPot;
+
+	FResponse_SereniteaPotHolder() {}
+};
+/****************RESPONSE HOLDERS*********************/
+
 
 UCLASS(Blueprintable, hideCategories = (Rendering, Replication, Input, Actor, "Actor Tick"))
 class GDINFMG_M02_API AHttpService : public AActor
@@ -75,11 +142,52 @@ private:
 	void GetJsonStringFromStruct(StructType FilledStruct, FString& StringOutput);
 	template <typename StructType>
 	void GetStructFromJsonString(FHttpResponsePtr Response, StructType& StructOutput);
+
 public:
 	AHttpService();
 	virtual void BeginPlay() override;
 
 	void Login(FRequest_Summary LoginCredentials);
-	void TestGet(FRequest_Summary summaryCredentials);
-	void LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
+
+	//SUMMARY REQUEST RESPONSE
+	void getSummary(FRequest_Summary summaryCredentials);
+	void SummaryResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
+
+	//WORLD EXPLO REQUEST RESPONSE
+	void getWorldExploration(FRequest_WorldExplo worldExploCredentials);
+	void worldExplorationResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
+
+	//SERENITEA POT REQUEST RESPONSE
+	void getSereniteaPot(FRequest_SereniteaPot sereniteaPotCredentials);
+	void sereniteaPotResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
+
+
+public:
+	// FOR DISPLAY - SUMMARY
+	FString ACuli;
+	FString CChestOpen;
+	FString DomUnlock;
+	FString EChestOpen;
+	FString ECuli;
+	FString GCuli;
+	FString LChestOpen;
+	FString PChestOpen;
+	FString SAbyss;
+	FString achievements;
+	FString characters;
+	FString daysActive;
+	FString noRemarkable;
+	FString wayPUnlock;
+
+	// FOR DISPLAY - WORLD EXPLORATION
+	FString explorationProgress;
+	FString frostTreeLevel;
+	FString reputationLevel;
+	FString sakuraFavorLevel;
+
+	//FOR DISPLAY - SERENITEA POT
+	FString FurnishingsObtained;
+	FString highestAdeptalEnergy;
+	FString trustRank;
+	FString visitorCount;
 };
