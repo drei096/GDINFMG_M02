@@ -48,6 +48,12 @@ void AHttpService::BeginPlay()
 	//FRequest_CharacterCollection characterCollectionCredentials;
 	//characterCollectionCredentials.userMainID = 808123456;
 	//getCharacterCollection(characterCollectionCredentials);
+
+	//TESTER CODE FOR CHARACTER ATTRIBUTES
+	FRequest_CharacterAttributes characterAttributesCredentials;
+	characterAttributesCredentials.ownedCharacterID = 1;
+	characterAttributesCredentials.userMainID = 808123456;
+	getCharacterAttributes(characterAttributesCredentials);
 	
 }
 
@@ -215,7 +221,7 @@ void AHttpService::worldExplorationResponse(FHttpRequestPtr Request, FHttpRespon
 		sakuraFavorLevel = ArrayObj.Last()->AsObject()->GetStringField("sakuraFavorLevel");
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *Response->GetContentAsString());
+	//UE_LOG(LogTemp, Warning, TEXT("%s"), *Response->GetContentAsString());
 }
 
 void AHttpService::getSereniteaPot(FRequest_SereniteaPot sereniteaPotCredentials)
@@ -294,5 +300,68 @@ void AHttpService::characterCollectionResponse(FHttpRequestPtr Request, FHttpRes
 	}
 
 	//UE_LOG(LogTemp, Warning, TEXT("%s"), *ownedCharacterList[0].name);
+}
+
+void AHttpService::getCharacterAttributes(FRequest_CharacterAttributes characterAttributesCredentials)
+{
+	FString characterAttributesEndpoint = "UserC/";
+	characterAttributesEndpoint.Append(FString::FromInt(characterAttributesCredentials.ownedCharacterID));
+	characterAttributesEndpoint.Append("/").Append(FString::FromInt(characterAttributesCredentials.userMainID));
+
+	TSharedRef<IHttpRequest, ESPMode::ThreadSafe> Request = GetRequest(characterAttributesEndpoint);
+	Request->OnProcessRequestComplete().BindUObject(this, &AHttpService::characterAttributesResponse);
+	Send(Request);
+}
+
+void AHttpService::characterAttributesResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
+{
+	if (!ResponseIsValid(Response, bWasSuccessful))
+		return;
+
+	FResponse_CharacterAttributesHolder characterAtrributesResponse;
+	GetStructFromJsonString<FResponse_CharacterAttributesHolder>(Response, characterAtrributesResponse);
+
+	TSharedPtr<FJsonObject> JsonObj = MakeShareable(new FJsonObject());
+
+	FString dataString = Response->GetContentAsString();
+	TSharedRef<TJsonReader<TCHAR>> Reader = TJsonReaderFactory<TCHAR>::Create(*dataString);
+	if (FJsonSerializer::Deserialize(Reader, JsonObj))
+	{
+		TArray<TSharedPtr<FJsonValue>> ArrayObj = JsonObj->GetArrayField("data");
+
+		//store results to inClass variables
+		character_name = ArrayObj[0]->AsObject()->GetStringField("character_name");
+		friendshipLevel = ArrayObj[0]->AsObject()->GetStringField("friendshipLevel");
+		refineRank = ArrayObj[0]->AsObject()->GetStringField("refineRank");
+		weap_description = ArrayObj[0]->AsObject()->GetStringField("weap_description");
+		weaponLevel = ArrayObj[0]->AsObject()->GetStringField("weaponLevel");
+		weaponName = ArrayObj[0]->AsObject()->GetStringField("weaponName");
+		weaponRarity = ArrayObj[0]->AsObject()->GetStringField("weaponRarity");
+
+		artif_description1 = ArrayObj[1]->AsObject()->GetStringField("artif_description");
+		artifactName1 = ArrayObj[1]->AsObject()->GetStringField("artifactName");
+		artifactRarity1 = ArrayObj[1]->AsObject()->GetStringField("artifactRarity");
+
+		artif_description2 = ArrayObj[2]->AsObject()->GetStringField("artif_description");
+		artifactName2 = ArrayObj[2]->AsObject()->GetStringField("artifactName");
+		artifactRarity2 = ArrayObj[2]->AsObject()->GetStringField("artifactRarity");
+
+		artif_description3 = ArrayObj[3]->AsObject()->GetStringField("artif_description");
+		artifactName3 = ArrayObj[3]->AsObject()->GetStringField("artifactName");
+		artifactRarity3 = ArrayObj[3]->AsObject()->GetStringField("artifactRarity");
+
+		artif_description4 = ArrayObj[4]->AsObject()->GetStringField("artif_description");
+		artifactName4 = ArrayObj[4]->AsObject()->GetStringField("artifactName");
+		artifactRarity4 = ArrayObj[4]->AsObject()->GetStringField("artifactRarity");
+
+		artif_description5 = ArrayObj[5]->AsObject()->GetStringField("artif_description");
+		artifactName5 = ArrayObj[5]->AsObject()->GetStringField("artifactName");
+		artifactRarity5 = ArrayObj[5]->AsObject()->GetStringField("artifactRarity");
+
+		
+		//UE_LOG(LogTemp, Warning, TEXT("%s"), *Response->GetContentAsString());
+	}
+
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *artifactName1);
 }
 

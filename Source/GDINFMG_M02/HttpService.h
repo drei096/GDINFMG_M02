@@ -25,6 +25,17 @@ struct FOwnedCharacterData
 };
 
 USTRUCT()
+struct FArtifactData
+{
+		GENERATED_BODY()
+		UPROPERTY() FString artif_description;
+		UPROPERTY() FString artifactName;
+		UPROPERTY() int artifactRarity;
+
+		FArtifactData() {}
+};
+
+USTRUCT()
 struct FRequest_Summary
 {
 		GENERATED_BODY()
@@ -121,6 +132,36 @@ struct FResponse_CharacterCollection
 	FResponse_CharacterCollection() {}
 };
 
+USTRUCT()
+struct FRequest_CharacterAttributes
+{
+		GENERATED_BODY()
+		UPROPERTY() int userMainID;
+		UPROPERTY() int ownedCharacterID;
+
+		FRequest_CharacterAttributes() {}
+};
+
+USTRUCT()
+struct FResponse_CharacterAttributes
+{
+		GENERATED_BODY()
+		UPROPERTY() FString character_name;
+		UPROPERTY() int friendshipLevel;
+		UPROPERTY() int refineRank;
+		UPROPERTY() FString weap_description;
+		UPROPERTY() int weaponLevel;
+		UPROPERTY() FString weaponName;
+		UPROPERTY() int weaponRarity;
+		UPROPERTY() FArtifactData artifact1Data;
+		UPROPERTY() FArtifactData artifact2Data;
+		UPROPERTY() FArtifactData artifact3Data;
+		UPROPERTY() FArtifactData artifact4Data;
+		UPROPERTY() FArtifactData artifact5Data;
+
+	FResponse_CharacterAttributes() {}
+};
+
 /****************RESPONSE HOLDERS*********************/
 USTRUCT()
 struct FResponse_SummaryHolder
@@ -156,6 +197,15 @@ struct FResponse_CharacterCollectionHolder
 		UPROPERTY() FResponse_CharacterCollection Response_CharacterCollection;
 
 	FResponse_CharacterCollectionHolder() {}
+};
+
+USTRUCT()
+struct FResponse_CharacterAttributesHolder
+{
+	GENERATED_BODY()
+		UPROPERTY() FResponse_CharacterAttributes Response_CharacterAttributes;
+
+	FResponse_CharacterAttributesHolder() {}
 };
 /****************RESPONSE HOLDERS*********************/
 
@@ -209,6 +259,9 @@ public:
 	void getCharacterCollection(FRequest_CharacterCollection characterCollectionCredentials);
 	void characterCollectionResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
+	//CHARACTER ATTRIBUTES REQUEST RESPONSE
+	void getCharacterAttributes(FRequest_CharacterAttributes characterAttributesCredentials);
+	void characterAttributesResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
 public:
 	// FOR DISPLAY - SUMMARY
@@ -241,4 +294,28 @@ public:
 
 	//FOR DISPLAY - CHARACTER COLLECTION
 	std::vector<FOwnedCharacterData> ownedCharacterList;
+
+	//FOR DISPLAY - CHARACTER ATTRIBUTES
+	FString character_name;
+	FString friendshipLevel;
+	FString refineRank;
+	FString weap_description;
+	FString weaponLevel;
+	FString weaponName;
+	FString weaponRarity;
+	FString artif_description1;
+	FString artifactName1;
+	FString artifactRarity1;
+	FString artif_description2;
+	FString artifactName2;
+	FString artifactRarity2;
+	FString artif_description3;
+	FString artifactName3;
+	FString artifactRarity3;
+	FString artif_description4;
+	FString artifactName4;
+	FString artifactRarity4;
+	FString artif_description5;
+	FString artifactName5;
+	FString artifactRarity5;
 };
