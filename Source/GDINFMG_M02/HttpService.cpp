@@ -40,9 +40,14 @@ void AHttpService::BeginPlay()
 	//getWorldExploration(worldExploCredentials);
 
 	//TESTER CODE FOR SERENITEA POT
-	FRequest_SereniteaPot sereniteaPotCredentials;
-	sereniteaPotCredentials.userMainID = 808123456;
-	getSereniteaPot(sereniteaPotCredentials);
+	//FRequest_SereniteaPot sereniteaPotCredentials;
+	//sereniteaPotCredentials.userMainID = 808123456;
+	//getSereniteaPot(sereniteaPotCredentials);
+
+	//TESTER CODE FOR CHARACTER COLLECTION
+	//FRequest_CharacterCollection characterCollectionCredentials;
+	//characterCollectionCredentials.userMainID = 808123456;
+	//getCharacterCollection(characterCollectionCredentials);
 	
 }
 
@@ -247,5 +252,47 @@ void AHttpService::sereniteaPotResponse(FHttpRequestPtr Request, FHttpResponsePt
 	}
 
 	UE_LOG(LogTemp, Warning, TEXT("%s"), *FurnishingsObtained);
+}
+
+void AHttpService::getCharacterCollection(FRequest_CharacterCollection characterCollectionCredentials)
+{
+	FString characterCollectionEndpoint = "UserB/";
+	characterCollectionEndpoint.Append(FString::FromInt(characterCollectionCredentials.userMainID));
+
+	TSharedRef<IHttpRequest, ESPMode::ThreadSafe> Request = GetRequest(characterCollectionEndpoint);
+	Request->OnProcessRequestComplete().BindUObject(this, &AHttpService::characterCollectionResponse);
+	Send(Request);
+}
+
+void AHttpService::characterCollectionResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
+{
+	if (!ResponseIsValid(Response, bWasSuccessful))
+		return;
+
+	FResponse_CharacterCollectionHolder characterCollectionResponse;
+	GetStructFromJsonString<FResponse_CharacterCollectionHolder>(Response, characterCollectionResponse);
+
+	TSharedPtr<FJsonObject> JsonObj = MakeShareable(new FJsonObject());
+
+	FString dataString = Response->GetContentAsString();
+	TSharedRef<TJsonReader<TCHAR>> Reader = TJsonReaderFactory<TCHAR>::Create(*dataString);
+	if (FJsonSerializer::Deserialize(Reader, JsonObj))
+	{
+		TArray<TSharedPtr<FJsonValue>> ArrayObj = JsonObj->GetArrayField("data");
+
+		//store results to inClass variables
+		for(int i = 0; i < ArrayObj.Num(); i++)
+		{
+			FOwnedCharacterData tempHolder;
+			tempHolder.name = ArrayObj[i]->AsObject()->GetStringField("character_name");
+			tempHolder.constellationLevel = ArrayObj[i]->AsObject()->GetStringField("constellationLevel");
+			tempHolder.level = ArrayObj[i]->AsObject()->GetStringField("level");
+			tempHolder.rarity = ArrayObj[i]->AsObject()->GetStringField("rarity");
+
+			ownedCharacterList.push_back(tempHolder);
+		}
+	}
+
+	//UE_LOG(LogTemp, Warning, TEXT("%s"), *ownedCharacterList[0].name);
 }
 

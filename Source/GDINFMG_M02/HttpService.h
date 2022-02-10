@@ -7,8 +7,22 @@
 #include "Runtime/Online/HTTP/Public/Http.h"
 #include "Json.h"
 #include "JsonUtilities.h"
+#include <vector>
 #include "HttpService.generated.h"
 
+
+
+USTRUCT()
+struct FOwnedCharacterData
+{
+		GENERATED_BODY()
+		UPROPERTY() FString constellationLevel;
+		UPROPERTY() FString level;
+		UPROPERTY() FString name;
+		UPROPERTY() FString rarity;
+
+		FOwnedCharacterData() {}
+};
 
 USTRUCT()
 struct FRequest_Summary
@@ -86,6 +100,27 @@ struct FResponse_SereniteaPot
 	FResponse_SereniteaPot() {}
 };
 
+USTRUCT()
+struct FRequest_CharacterCollection
+{
+	GENERATED_BODY()
+		UPROPERTY() int userMainID;
+
+	FRequest_CharacterCollection() {}
+};
+
+USTRUCT()
+struct FResponse_CharacterCollection
+{
+		GENERATED_BODY()
+		UPROPERTY() int constellationLevel;
+		UPROPERTY() int level;
+		UPROPERTY() FString name;
+		UPROPERTY() int rarity;
+
+	FResponse_CharacterCollection() {}
+};
+
 /****************RESPONSE HOLDERS*********************/
 USTRUCT()
 struct FResponse_SummaryHolder
@@ -112,6 +147,15 @@ struct FResponse_SereniteaPotHolder
 		UPROPERTY() FResponse_SereniteaPot Response_SereniteaPot;
 
 	FResponse_SereniteaPotHolder() {}
+};
+
+USTRUCT()
+struct FResponse_CharacterCollectionHolder
+{
+	GENERATED_BODY()
+		UPROPERTY() FResponse_CharacterCollection Response_CharacterCollection;
+
+	FResponse_CharacterCollectionHolder() {}
 };
 /****************RESPONSE HOLDERS*********************/
 
@@ -161,6 +205,10 @@ public:
 	void getSereniteaPot(FRequest_SereniteaPot sereniteaPotCredentials);
 	void sereniteaPotResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
+	//CHARACTER COLLECTION REQUEST RESPONSE
+	void getCharacterCollection(FRequest_CharacterCollection characterCollectionCredentials);
+	void characterCollectionResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
+
 
 public:
 	// FOR DISPLAY - SUMMARY
@@ -190,4 +238,7 @@ public:
 	FString highestAdeptalEnergy;
 	FString trustRank;
 	FString visitorCount;
+
+	//FOR DISPLAY - CHARACTER COLLECTION
+	std::vector<FOwnedCharacterData> ownedCharacterList;
 };
