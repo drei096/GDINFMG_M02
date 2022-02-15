@@ -34,6 +34,47 @@ struct FArtifactData
 
 		FArtifactData() {}
 };
+USTRUCT()
+struct FRequest_Login
+{
+		GENERATED_BODY()
+		UPROPERTY() FString username; //username or email
+		UPROPERTY() FString password;
+
+		FRequest_Login() {}
+};
+
+/*
+-----------------------Still not sure what login response should be
+USTRUCT()
+struct FResponse_Login
+{
+		GENERATED_BODY()
+		UPROPERTY() int userMainID;
+
+		FResponse_Login() {}
+};
+*/
+
+USTRUCT()
+struct FRequest_Server // SWITCH ACCOUNTS
+{
+		GENERATED_BODY()
+		UPROPERTY() int serverID;
+		UPROPERTY() int accountID;
+
+		FRequest_Server() {}
+};
+
+USTRUCT()
+struct FResponse_Server // SWITCH ACCOUNTS
+{
+		GENERATED_BODY()
+		UPROPERTY() int userMainID;
+		UPROPERTY() int nickname;
+
+		FResponse_Server() {}
+};
 
 USTRUCT()
 struct FRequest_Summary
@@ -241,7 +282,11 @@ public:
 	AHttpService();
 	virtual void BeginPlay() override;
 
-	void Login(FRequest_Summary LoginCredentials);
+	void Login(FRequest_Login LoginCredentials);
+
+	//SERVER REQUEST RESPONSE
+	void getServer(FRequest_Server serverCredentials);
+	void ServerResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
 	//SUMMARY REQUEST RESPONSE
 	void getSummary(FRequest_Summary summaryCredentials);
@@ -264,6 +309,10 @@ public:
 	void characterAttributesResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
 public:
+	// FOR DISPLAY - SERVER
+	FString userMainID;
+	FString nickname;
+
 	// FOR DISPLAY - SUMMARY
 	FString ACuli;
 	FString CChestOpen;

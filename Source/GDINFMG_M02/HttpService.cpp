@@ -128,7 +128,7 @@ void AHttpService::GetStructFromJsonString(FHttpResponsePtr Response, StructType
 
 
 
-void AHttpService::Login(FRequest_Summary LoginCredentials)
+void AHttpService::Login(FRequest_Login LoginCredentials)
 {
 	/*
 	FString ContentJsonString;
@@ -138,6 +138,50 @@ void AHttpService::Login(FRequest_Summary LoginCredentials)
 	Request->OnProcessRequestComplete().BindUObject(this, &AHttpService::SummaryResponse);
 	Send(Request);
 	*/
+
+	/*
+	FString loginEndpoint = "UserD/";
+	loginEndpoint.Append(LoginCredentials.username);
+	loginEndpoint.Append("/").Append(LoginCredentials.password);
+	TSharedRef<IHttpRequest, ESPMode::ThreadSafe> Request = GetRequest(loginEndpoint);
+	Request->OnProcessRequestComplete().BindUObject(this, &AHttpService::LoginResponse);
+	Send(Request);
+	*/
+}
+
+void AHttpService::getServer(FRequest_Server ServerCredentials)
+{
+	FString serverEndpoint = "UserE/";
+	serverEndpoint.Append(FString::FromInt(ServerCredentials.serverID));
+	serverEndpoint.Append("/").Append(FString::FromInt(ServerCredentials.accountID));
+
+	TSharedRef<IHttpRequest, ESPMode::ThreadSafe> Request = GetRequest(serverEndpoint);
+	Request->OnProcessRequestComplete().BindUObject(this, &AHttpService::ServerResponse);
+	Send(Request);
+}
+
+void AHttpService::ServerResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
+{
+	if (!ResponseIsValid(Response, bWasSuccessful))
+		return;
+
+	FResponse_WorldExploHolder worldExploResponse;
+	GetStructFromJsonString<FResponse_WorldExploHolder>(Response, worldExploResponse);
+
+	TSharedPtr<FJsonObject> JsonObj = MakeShareable(new FJsonObject());
+
+	FString dataString = Response->GetContentAsString();
+	TSharedRef<TJsonReader<TCHAR>> Reader = TJsonReaderFactory<TCHAR>::Create(*dataString);
+	if (FJsonSerializer::Deserialize(Reader, JsonObj))
+	{
+		TArray<TSharedPtr<FJsonValue>> ArrayObj = JsonObj->GetArrayField("data");
+
+		//store results to inClass variables
+		userMainID = ArrayObj.Last()->AsObject()->GetStringField("user_main_ID");
+		nickname = ArrayObj.Last()->AsObject()->GetStringField("characterNickname");
+	}
+
+	//UE_LOG(LogTemp, Warning, TEXT("%s"), *Response->GetContentAsString());
 }
 
 void AHttpService::getSummary(FRequest_Summary LoginCredentials)
@@ -149,7 +193,6 @@ void AHttpService::getSummary(FRequest_Summary LoginCredentials)
 	Request->OnProcessRequestComplete().BindUObject(this, &AHttpService::SummaryResponse);
 	Send(Request);
 }
-
 
 void AHttpService::SummaryResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
 {
