@@ -50,10 +50,15 @@ void AHttpService::BeginPlay()
 	//getCharacterCollection(characterCollectionCredentials);
 
 	//TESTER CODE FOR CHARACTER ATTRIBUTES
-	FRequest_CharacterAttributes characterAttributesCredentials;
-	characterAttributesCredentials.ownedCharacterID = 1;
-	characterAttributesCredentials.userMainID = 808123456;
-	getCharacterAttributes(characterAttributesCredentials);
+	//FRequest_CharacterAttributes characterAttributesCredentials;
+	//characterAttributesCredentials.ownedCharacterID = 1;
+	//characterAttributesCredentials.userMainID = 808123456;
+	//getCharacterAttributes(characterAttributesCredentials);
+
+	//TESTER CODE FOR SPIRAL ABYSS SUMMARY
+	//FRequest_SpiralAbyssSummary spiralAbyssSummaryCredentials;
+	//spiralAbyssSummaryCredentials.userMainID = 808123456;
+	//getSpiralAbyssSummary(spiralAbyssSummaryCredentials);
 	
 }
 
@@ -381,30 +386,66 @@ void AHttpService::characterAttributesResponse(FHttpRequestPtr Request, FHttpRes
 		weaponName = ArrayObj[0]->AsObject()->GetStringField("weaponName");
 		weaponRarity = ArrayObj[0]->AsObject()->GetStringField("weaponRarity");
 
-		artif_description1 = ArrayObj[1]->AsObject()->GetStringField("artif_description");
-		artifactName1 = ArrayObj[1]->AsObject()->GetStringField("artifactName");
-		artifactRarity1 = ArrayObj[1]->AsObject()->GetStringField("artifactRarity");
+		for (int i = 1; i < ArrayObj.Num(); i++)
+		{
+			FArtifactData tempHolder;
+			tempHolder.artif_description = ArrayObj[i]->AsObject()->GetStringField("artif_description");
+			tempHolder.artifactName = ArrayObj[i]->AsObject()->GetStringField("artifactName");
+			tempHolder.artifactRarity = ArrayObj[i]->AsObject()->GetStringField("artifactRarity");
 
-		artif_description2 = ArrayObj[2]->AsObject()->GetStringField("artif_description");
-		artifactName2 = ArrayObj[2]->AsObject()->GetStringField("artifactName");
-		artifactRarity2 = ArrayObj[2]->AsObject()->GetStringField("artifactRarity");
+			ownedArtifactList.push_back(tempHolder);
+		}
 
-		artif_description3 = ArrayObj[3]->AsObject()->GetStringField("artif_description");
-		artifactName3 = ArrayObj[3]->AsObject()->GetStringField("artifactName");
-		artifactRarity3 = ArrayObj[3]->AsObject()->GetStringField("artifactRarity");
-
-		artif_description4 = ArrayObj[4]->AsObject()->GetStringField("artif_description");
-		artifactName4 = ArrayObj[4]->AsObject()->GetStringField("artifactName");
-		artifactRarity4 = ArrayObj[4]->AsObject()->GetStringField("artifactRarity");
-
-		artif_description5 = ArrayObj[5]->AsObject()->GetStringField("artif_description");
-		artifactName5 = ArrayObj[5]->AsObject()->GetStringField("artifactName");
-		artifactRarity5 = ArrayObj[5]->AsObject()->GetStringField("artifactRarity");
-
+		//NOTE: OWNED ARTIFACT LIST INDEX REFERENCE: [0] = ARTIFACT 1
+		//											 [1] = ARTIFACT 2
+		//											 [2] = ARTIFACT 3
+		//											 [3] = ARTIFACT 4
+		//											 [4] = ARTIFACT 5
 		
 		//UE_LOG(LogTemp, Warning, TEXT("%s"), *Response->GetContentAsString());
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *artifactName1);
+	//UE_LOG(LogTemp, Warning, TEXT("%s"), *artifactName1);
+}
+
+void AHttpService::getSpiralAbyssSummary(FRequest_SpiralAbyssSummary spiralAbyssSummaryCredentials)
+{
+	FString spiralAbyssSummaryEndpoint = "UserF/";
+	spiralAbyssSummaryEndpoint.Append(FString::FromInt(spiralAbyssSummaryCredentials.userMainID));
+
+	TSharedRef<IHttpRequest, ESPMode::ThreadSafe> Request = GetRequest(spiralAbyssSummaryEndpoint);
+	Request->OnProcessRequestComplete().BindUObject(this, &AHttpService::spiralAbyssSummaryResponse);
+	Send(Request);
+}
+
+void AHttpService::spiralAbyssSummaryResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
+{
+	if (!ResponseIsValid(Response, bWasSuccessful))
+		return;
+
+	FResponse_SpiralAbyssSummaryHolder spiralAbyssSummaryResponse;
+	GetStructFromJsonString<FResponse_SpiralAbyssSummaryHolder>(Response, spiralAbyssSummaryResponse);
+
+	TSharedPtr<FJsonObject> JsonObj = MakeShareable(new FJsonObject());
+
+	FString dataString = Response->GetContentAsString();
+	TSharedRef<TJsonReader<TCHAR>> Reader = TJsonReaderFactory<TCHAR>::Create(*dataString);
+	if (FJsonSerializer::Deserialize(Reader, JsonObj))
+	{
+		TArray<TSharedPtr<FJsonValue>> ArrayObj = JsonObj->GetArrayField("data");
+
+		//store results to inClass variables
+		abyss_ID = ArrayObj.Last()->AsObject()->GetStringField("abyss_ID");
+		battlesFought = ArrayObj.Last()->AsObject()->GetStringField("battlesFought");
+		deepestDesc = ArrayObj.Last()->AsObject()->GetStringField("deepestDesc");
+		elemBurstUsed = ArrayObj.Last()->AsObject()->GetStringField("elemBurstUsed");
+		elemSkillsUsed = ArrayObj.Last()->AsObject()->GetStringField("elemSkillsUsed");
+		mostDefeats = ArrayObj.Last()->AsObject()->GetStringField("mostDefeats");
+		mostDMGTaken = ArrayObj.Last()->AsObject()->GetStringField("mostDMGTaken");
+		sAbyssStars = ArrayObj.Last()->AsObject()->GetStringField("sAbyssStars");
+		strongSingleStrike = ArrayObj.Last()->AsObject()->GetStringField("strongSingleStrike");
+	}
+
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *strongSingleStrike);
 }
 

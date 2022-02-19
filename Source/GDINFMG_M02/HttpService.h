@@ -30,7 +30,7 @@ struct FArtifactData
 		GENERATED_BODY()
 		UPROPERTY() FString artif_description;
 		UPROPERTY() FString artifactName;
-		UPROPERTY() int artifactRarity;
+		UPROPERTY() FString artifactRarity;
 
 		FArtifactData() {}
 };
@@ -203,6 +203,33 @@ struct FResponse_CharacterAttributes
 	FResponse_CharacterAttributes() {}
 };
 
+USTRUCT()
+struct FRequest_SpiralAbyssSummary
+{
+	GENERATED_BODY()
+		UPROPERTY() int userMainID;
+
+	FRequest_SpiralAbyssSummary() {}
+};
+
+USTRUCT()
+struct FResponse_SpiralAbyssSummary
+{
+		GENERATED_BODY()
+		UPROPERTY() int abyss_ID;
+		UPROPERTY() int battlesFought;
+		UPROPERTY() int deepestDesc;
+		UPROPERTY() int elemBurstUsed;
+		UPROPERTY() int elemSkillsUsed;
+		UPROPERTY() int mostDefeats;
+		UPROPERTY() int mostDMGTaken;
+		UPROPERTY() int sAbyssStars;
+		UPROPERTY() int strongSingleStrike;
+
+
+	FResponse_SpiralAbyssSummary() {}
+};
+
 /****************RESPONSE HOLDERS*********************/
 USTRUCT()
 struct FResponse_SummaryHolder
@@ -248,6 +275,15 @@ struct FResponse_CharacterAttributesHolder
 
 	FResponse_CharacterAttributesHolder() {}
 };
+
+USTRUCT()
+struct FResponse_SpiralAbyssSummaryHolder
+{
+	GENERATED_BODY()
+		UPROPERTY() FResponse_SpiralAbyssSummary Response_SpiralAbyssSummary;
+
+	FResponse_SpiralAbyssSummaryHolder() {}
+};
 /****************RESPONSE HOLDERS*********************/
 
 
@@ -282,6 +318,7 @@ public:
 	AHttpService();
 	virtual void BeginPlay() override;
 
+	//SERVER LOGIN
 	void Login(FRequest_Login LoginCredentials);
 
 	//SERVER REQUEST RESPONSE
@@ -307,6 +344,10 @@ public:
 	//CHARACTER ATTRIBUTES REQUEST RESPONSE
 	void getCharacterAttributes(FRequest_CharacterAttributes characterAttributesCredentials);
 	void characterAttributesResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
+
+	//SPIRAL ABYSS SUMMARY REQUEST RESPONSE
+	void getSpiralAbyssSummary(FRequest_SpiralAbyssSummary spiralAbyssSummaryCredentials);
+	void spiralAbyssSummaryResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
 public:
 	// FOR DISPLAY - SERVER
@@ -352,6 +393,9 @@ public:
 	FString weaponLevel;
 	FString weaponName;
 	FString weaponRarity;
+	std::vector<FArtifactData> ownedArtifactList;
+
+	/*
 	FString artif_description1;
 	FString artifactName1;
 	FString artifactRarity1;
@@ -367,4 +411,18 @@ public:
 	FString artif_description5;
 	FString artifactName5;
 	FString artifactRarity5;
+	*/
+
+	//FOR DISPLAY - SPIRAL ABYSS SUMMARY
+	FString abyss_ID;
+	FString battlesFought;
+	FString deepestDesc;
+	FString elemBurstUsed;
+	FString elemSkillsUsed;
+	FString mostDefeats;
+	FString mostDMGTaken;
+	FString sAbyssStars;
+	FString strongSingleStrike;
 };
+
+
