@@ -59,7 +59,13 @@ void AHttpService::BeginPlay()
 	//FRequest_SpiralAbyssSummary spiralAbyssSummaryCredentials;
 	//spiralAbyssSummaryCredentials.userMainID = 808123456;
 	//getSpiralAbyssSummary(spiralAbyssSummaryCredentials);
-	
+
+	//TESTER CODE FOR SPIRAL ABYSS CHALLENGE
+	FRequest_SpiralAbyssChallenge spiralAbyssChallengeCredentials;
+	spiralAbyssChallengeCredentials.abyssID = 1;
+	spiralAbyssChallengeCredentials.chamber = 1;
+	spiralAbyssChallengeCredentials.floor = 9;
+	getSpiralAbyssChallenge(spiralAbyssChallengeCredentials);
 }
 
 void AHttpService::SetAuthorizationHash(FString Hash)
@@ -447,5 +453,44 @@ void AHttpService::spiralAbyssSummaryResponse(FHttpRequestPtr Request, FHttpResp
 	}
 
 	UE_LOG(LogTemp, Warning, TEXT("%s"), *strongSingleStrike);
+}
+
+void AHttpService::getSpiralAbyssChallenge(FRequest_SpiralAbyssChallenge spiralAbyssChallengeCredentials)
+{
+	FString spiralAbyssChallengeEndpoint = "UserG/";
+	spiralAbyssChallengeEndpoint.Append(FString::FromInt(spiralAbyssChallengeCredentials.floor));
+	spiralAbyssChallengeEndpoint.Append("/");
+	spiralAbyssChallengeEndpoint.Append(FString::FromInt(spiralAbyssChallengeCredentials.chamber));
+	spiralAbyssChallengeEndpoint.Append("/");
+	spiralAbyssChallengeEndpoint.Append(FString::FromInt(spiralAbyssChallengeCredentials.abyssID));
+
+	TSharedRef<IHttpRequest, ESPMode::ThreadSafe> Request = GetRequest(spiralAbyssChallengeEndpoint);
+	Request->OnProcessRequestComplete().BindUObject(this, &AHttpService::spiralAbyssChallengeResponse);
+	Send(Request);
+}
+
+void AHttpService::spiralAbyssChallengeResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
+{
+	if (!ResponseIsValid(Response, bWasSuccessful))
+		return;
+
+	FResponse_SpiralAbyssChallengeHolder spiralAbyssChallengeResponse;
+	GetStructFromJsonString<FResponse_SpiralAbyssChallengeHolder>(Response, spiralAbyssChallengeResponse);
+
+	TSharedPtr<FJsonObject> JsonObj = MakeShareable(new FJsonObject());
+
+	FString dataString = Response->GetContentAsString();
+	TSharedRef<TJsonReader<TCHAR>> Reader = TJsonReaderFactory<TCHAR>::Create(*dataString);
+	if (FJsonSerializer::Deserialize(Reader, JsonObj))
+	{
+		TArray<TSharedPtr<FJsonValue>> ArrayObj = JsonObj->GetArrayField("data");
+
+		//store results to inClass variables
+		
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *Response->GetContentAsString());
+		UE_LOG(LogTemp, Warning, TEXT("AAAAAA: %d"), ArrayObj.Num());
+	}
+
+	//UE_LOG(LogTemp, Warning, TEXT("%s"), *strongSingleStrike);
 }
 

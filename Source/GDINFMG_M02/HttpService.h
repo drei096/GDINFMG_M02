@@ -34,6 +34,40 @@ struct FArtifactData
 
 		FArtifactData() {}
 };
+
+USTRUCT()
+struct FChallengeData
+{
+		GENERATED_BODY()
+		UPROPERTY() FString stars;
+		UPROPERTY() FString char1H1;
+		UPROPERTY() FString character_name1H1;
+		UPROPERTY() FString level1H1;
+		UPROPERTY() FString char2H1;
+		UPROPERTY() FString character_name2H1;
+		UPROPERTY() FString level2H1;
+		UPROPERTY() FString char3H1;
+		UPROPERTY() FString character_name3H1;
+		UPROPERTY() FString level3H1;
+		UPROPERTY() FString char4H1;
+		UPROPERTY() FString character_name4H1;
+		UPROPERTY() FString level4H1;
+		UPROPERTY() FString char1H2;
+		UPROPERTY() FString character_name1H2;
+		UPROPERTY() FString level1H2;
+		UPROPERTY() FString char2H2;
+		UPROPERTY() FString character_name2H2;
+		UPROPERTY() FString level2H2;
+		UPROPERTY() FString char3H2;
+		UPROPERTY() FString character_name3H2;
+		UPROPERTY() FString level3H2;
+		UPROPERTY() FString char4H2;
+		UPROPERTY() FString character_name4H2;
+		UPROPERTY() FString level4H2;
+
+		FChallengeData() {}
+};
+
 USTRUCT()
 struct FRequest_Login
 {
@@ -230,6 +264,51 @@ struct FResponse_SpiralAbyssSummary
 	FResponse_SpiralAbyssSummary() {}
 };
 
+USTRUCT()
+struct FRequest_SpiralAbyssChallenge
+{
+	GENERATED_BODY()
+		UPROPERTY() int abyssID;
+		UPROPERTY() int floor;
+		UPROPERTY() int chamber;
+
+	FRequest_SpiralAbyssChallenge() {}
+};
+
+USTRUCT()
+struct FResponse_SpiralAbyssChallenge
+{
+	GENERATED_BODY()
+		UPROPERTY() int stars;
+		UPROPERTY() int char1H1;
+		UPROPERTY() FString character_name1H1;
+		UPROPERTY() int level1H1;
+		UPROPERTY() int char2H1;
+		UPROPERTY() FString character_name2H1;
+		UPROPERTY() int level2H1;
+		UPROPERTY() int char3H1;
+		UPROPERTY() FString character_name3H1;
+		UPROPERTY() int level3H1;
+		UPROPERTY() int char4H1;
+		UPROPERTY() FString character_name4H1;
+		UPROPERTY() int level4H1;
+		UPROPERTY() int char1H2;
+		UPROPERTY() FString character_name1H2;
+		UPROPERTY() int level1H2;
+		UPROPERTY() int char2H2;
+		UPROPERTY() FString character_name2H2;
+		UPROPERTY() int level2H2;
+		UPROPERTY() int char3H2;
+		UPROPERTY() FString character_name3H2;
+		UPROPERTY() int level3H2;
+		UPROPERTY() int char4H2;
+		UPROPERTY() FString character_name4H2;
+		UPROPERTY() int level4H2;
+
+
+	FResponse_SpiralAbyssChallenge() {}
+};
+
 /****************RESPONSE HOLDERS*********************/
 USTRUCT()
 struct FResponse_SummaryHolder
@@ -284,6 +363,16 @@ struct FResponse_SpiralAbyssSummaryHolder
 
 	FResponse_SpiralAbyssSummaryHolder() {}
 };
+
+USTRUCT()
+struct FResponse_SpiralAbyssChallengeHolder
+{
+	GENERATED_BODY()
+		UPROPERTY() FResponse_SpiralAbyssChallenge Response_SpiralAbyssChallenge;
+
+	FResponse_SpiralAbyssChallengeHolder() {}
+};
+
 /****************RESPONSE HOLDERS*********************/
 
 
@@ -348,6 +437,10 @@ public:
 	//SPIRAL ABYSS SUMMARY REQUEST RESPONSE
 	void getSpiralAbyssSummary(FRequest_SpiralAbyssSummary spiralAbyssSummaryCredentials);
 	void spiralAbyssSummaryResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
+
+	//SPIRAL ABYSS CHALLENGE REQUEST RESPONSE
+	void getSpiralAbyssChallenge(FRequest_SpiralAbyssChallenge spiralAbyssChallengeCredentials);
+	void spiralAbyssChallengeResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
 public:
 	// FOR DISPLAY - SERVER
@@ -423,6 +516,9 @@ public:
 	FString mostDMGTaken;
 	FString sAbyssStars;
 	FString strongSingleStrike;
+
+	//FOR DISPLAY - SPIRAL ABYSS CHALLENGE
+	std::vector<FChallengeData> spiralAbyssChallengeData;
 };
 
 
