@@ -39,29 +39,23 @@ USTRUCT()
 struct FChallengeData
 {
 		GENERATED_BODY()
+		UPROPERTY() FString floor;
+		UPROPERTY() FString chamber;
 		UPROPERTY() FString stars;
-		UPROPERTY() FString char1H1;
 		UPROPERTY() FString character_name1H1;
 		UPROPERTY() FString level1H1;
-		UPROPERTY() FString char2H1;
 		UPROPERTY() FString character_name2H1;
 		UPROPERTY() FString level2H1;
-		UPROPERTY() FString char3H1;
 		UPROPERTY() FString character_name3H1;
 		UPROPERTY() FString level3H1;
-		UPROPERTY() FString char4H1;
 		UPROPERTY() FString character_name4H1;
 		UPROPERTY() FString level4H1;
-		UPROPERTY() FString char1H2;
 		UPROPERTY() FString character_name1H2;
 		UPROPERTY() FString level1H2;
-		UPROPERTY() FString char2H2;
 		UPROPERTY() FString character_name2H2;
 		UPROPERTY() FString level2H2;
-		UPROPERTY() FString char3H2;
 		UPROPERTY() FString character_name3H2;
 		UPROPERTY() FString level3H2;
-		UPROPERTY() FString char4H2;
 		UPROPERTY() FString character_name4H2;
 		UPROPERTY() FString level4H2;
 

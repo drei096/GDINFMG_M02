@@ -487,10 +487,50 @@ void AHttpService::spiralAbyssChallengeResponse(FHttpRequestPtr Request, FHttpRe
 
 		//store results to inClass variables
 		
-		UE_LOG(LogTemp, Warning, TEXT("%s"), *Response->GetContentAsString());
-		UE_LOG(LogTemp, Warning, TEXT("AAAAAA: %d"), ArrayObj.Num());
+		for (int i = 0; i < ArrayObj.Num(); i++)
+		{
+			FChallengeData tempHolder;
+			tempHolder.chamber = ArrayObj[i]->AsObject()->GetStringField("chamber");
+
+			tempHolder.character_name1H1 = ArrayObj[i]->AsObject()->GetStringField("char1");
+			tempHolder.level1H1 = ArrayObj[i]->AsObject()->GetStringField("char1Level");
+
+			tempHolder.character_name2H1 = ArrayObj[i]->AsObject()->GetStringField("char2");
+			tempHolder.level2H1 = ArrayObj[i]->AsObject()->GetStringField("char2Level");
+
+			tempHolder.character_name3H1 = ArrayObj[i]->AsObject()->GetStringField("char3");
+			tempHolder.level3H1 = ArrayObj[i]->AsObject()->GetStringField("char3Level");
+
+			tempHolder.character_name4H1 = ArrayObj[i]->AsObject()->GetStringField("char4");
+			tempHolder.level4H1 = ArrayObj[i]->AsObject()->GetStringField("char4Level");
+
+			tempHolder.character_name1H2 = ArrayObj[i]->AsObject()->GetStringField("char5");
+			tempHolder.level1H2 = ArrayObj[i]->AsObject()->GetStringField("char5Level");
+
+			tempHolder.character_name2H2 = ArrayObj[i]->AsObject()->GetStringField("char6");
+			tempHolder.level2H2 = ArrayObj[i]->AsObject()->GetStringField("char6Level");
+
+			tempHolder.character_name3H2 = ArrayObj[i]->AsObject()->GetStringField("char7");
+			tempHolder.level3H2 = ArrayObj[i]->AsObject()->GetStringField("char7Level");
+
+			tempHolder.character_name4H2 = ArrayObj[i]->AsObject()->GetStringField("char8");
+			tempHolder.level4H2 = ArrayObj[i]->AsObject()->GetStringField("char8Level");
+
+			tempHolder.floor = ArrayObj[i]->AsObject()->GetStringField("floor");
+			tempHolder.stars = ArrayObj[i]->AsObject()->GetStringField("stars");
+
+			spiralAbyssChallengeData.push_back(tempHolder);
+		}
+		
+		//NOTE: CHALLENGE LIST INDEX REFERENCE:      [0] = CHALLENGE 9-1
+		//											 [1] = CHALLENGE 9-2
+		//											 [2] = CHALLENGE 9-3
+		//											 [3] = CHALLENGE 10-1
+		//											 and so on...
 	}
 
-	//UE_LOG(LogTemp, Warning, TEXT("%s"), *strongSingleStrike);
+	//UE_LOG(LogTemp, Warning, TEXT("%s"), *Response->GetContentAsString());
+	//UE_LOG(LogTemp, Warning, TEXT("AAAAAA: %d"), ArrayObj.Num());
+	//UE_LOG(LogTemp, Warning, TEXT("%s"), *spiralAbyssChallengeData[0].level2H1);
 }
 
