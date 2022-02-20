@@ -455,52 +455,52 @@ public:
 
 public:
 	// FOR DISPLAY - LOGIN
-	FString userMainLoginID;
-	FString nicknameLogin;
+	UPROPERTY(BlueprintReadWrite) FString userMainLoginID;
+	UPROPERTY(BlueprintReadWrite) FString nicknameLogin;
 
 	// FOR DISPLAY - SERVER
-	FString userMainServerID;
-	FString nicknameSwitchServer;
+	UPROPERTY(BlueprintReadWrite) FString userMainServerID;
+	UPROPERTY(BlueprintReadWrite) FString nicknameSwitchServer;
 
 	// FOR DISPLAY - SUMMARY
-	FString ACuli;
-	FString CChestOpen;
-	FString DomUnlock;
-	FString EChestOpen;
-	FString ECuli;
-	FString GCuli;
-	FString LChestOpen;
-	FString PChestOpen;
-	FString SAbyss;
-	FString achievements;
-	FString characters;
-	FString daysActive;
-	FString noRemarkable;
-	FString wayPUnlock;
+	UPROPERTY(BlueprintReadWrite) FString ACuli;
+	UPROPERTY(BlueprintReadWrite) FString CChestOpen;
+	UPROPERTY(BlueprintReadWrite) FString DomUnlock;
+	UPROPERTY(BlueprintReadWrite) FString EChestOpen;
+	UPROPERTY(BlueprintReadWrite) FString ECuli;
+	UPROPERTY(BlueprintReadWrite) FString GCuli;
+	UPROPERTY(BlueprintReadWrite) FString LChestOpen;
+	UPROPERTY(BlueprintReadWrite) FString PChestOpen;
+	UPROPERTY(BlueprintReadWrite) FString SAbyss;
+	UPROPERTY(BlueprintReadWrite) FString achievements;
+	UPROPERTY(BlueprintReadWrite) FString characters;
+	UPROPERTY(BlueprintReadWrite) FString daysActive;
+	UPROPERTY(BlueprintReadWrite) FString noRemarkable;
+	UPROPERTY(BlueprintReadWrite) FString wayPUnlock;
 
 	// FOR DISPLAY - WORLD EXPLORATION
-	FString explorationProgress;
-	FString frostTreeLevel;
-	FString reputationLevel;
-	FString sakuraFavorLevel;
+	UPROPERTY(BlueprintReadWrite) FString explorationProgress;
+	UPROPERTY(BlueprintReadWrite) FString frostTreeLevel;
+	UPROPERTY(BlueprintReadWrite) FString reputationLevel;
+	UPROPERTY(BlueprintReadWrite) FString sakuraFavorLevel;
 
 	//FOR DISPLAY - SERENITEA POT
-	FString FurnishingsObtained;
-	FString highestAdeptalEnergy;
-	FString trustRank;
-	FString visitorCount;
+	UPROPERTY(BlueprintReadWrite) FString FurnishingsObtained;
+	UPROPERTY(BlueprintReadWrite) FString highestAdeptalEnergy;
+	UPROPERTY(BlueprintReadWrite) FString trustRank;
+	UPROPERTY(BlueprintReadWrite) FString visitorCount;
 
 	//FOR DISPLAY - CHARACTER COLLECTION
 	std::vector<FOwnedCharacterData> ownedCharacterList;
 
 	//FOR DISPLAY - CHARACTER ATTRIBUTES
-	FString character_name;
-	FString friendshipLevel;
-	FString refineRank;
-	FString weap_description;
-	FString weaponLevel;
-	FString weaponName;
-	FString weaponRarity;
+	UPROPERTY(BlueprintReadWrite) FString character_name;
+	UPROPERTY(BlueprintReadWrite) FString friendshipLevel;
+	UPROPERTY(BlueprintReadWrite) FString refineRank;
+	UPROPERTY(BlueprintReadWrite) FString weap_description;
+	UPROPERTY(BlueprintReadWrite) FString weaponLevel;
+	UPROPERTY(BlueprintReadWrite) FString weaponName;
+	UPROPERTY(BlueprintReadWrite) FString weaponRarity;
 	std::vector<FArtifactData> ownedArtifactList;
 
 	/*
@@ -522,15 +522,15 @@ public:
 	*/
 
 	//FOR DISPLAY - SPIRAL ABYSS SUMMARY
-	FString abyss_ID;
-	FString battlesFought;
-	FString deepestDesc;
-	FString elemBurstUsed;
-	FString elemSkillsUsed;
-	FString mostDefeats;
-	FString mostDMGTaken;
-	FString sAbyssStars;
-	FString strongSingleStrike;
+	UPROPERTY(BlueprintReadWrite) FString abyss_ID;
+	UPROPERTY(BlueprintReadWrite) FString battlesFought;
+	UPROPERTY(BlueprintReadWrite) FString deepestDesc;
+	UPROPERTY(BlueprintReadWrite) FString elemBurstUsed;
+	UPROPERTY(BlueprintReadWrite) FString elemSkillsUsed;
+	UPROPERTY(BlueprintReadWrite) FString mostDefeats;
+	UPROPERTY(BlueprintReadWrite) FString mostDMGTaken;
+	UPROPERTY(BlueprintReadWrite) FString sAbyssStars;
+	UPROPERTY(BlueprintReadWrite) FString strongSingleStrike;
 
 	//FOR DISPLAY - SPIRAL ABYSS CHALLENGE
 	std::vector<FChallengeData> spiralAbyssChallengeData;

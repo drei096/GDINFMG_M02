@@ -61,11 +61,11 @@ void AHttpService::BeginPlay()
 	//getSpiralAbyssSummary(spiralAbyssSummaryCredentials);
 
 	//TESTER CODE FOR SPIRAL ABYSS CHALLENGE
-	FRequest_SpiralAbyssChallenge spiralAbyssChallengeCredentials;
-	spiralAbyssChallengeCredentials.abyssID = 1;
-	spiralAbyssChallengeCredentials.chamber = 1;
-	spiralAbyssChallengeCredentials.floor = 9;
-	getSpiralAbyssChallenge(spiralAbyssChallengeCredentials);
+	//FRequest_SpiralAbyssChallenge spiralAbyssChallengeCredentials;
+	//spiralAbyssChallengeCredentials.abyssID = 1;
+	//spiralAbyssChallengeCredentials.chamber = 1;
+	//spiralAbyssChallengeCredentials.floor = 9;
+	//getSpiralAbyssChallenge(spiralAbyssChallengeCredentials);
 }
 
 void AHttpService::SetAuthorizationHash(FString Hash)
