@@ -141,12 +141,6 @@ void AHttpService::GetStructFromJsonString(FHttpResponsePtr Response, StructType
 
 void AHttpService::Login(FRequest_Login LoginCredentials)
 {
-	FString ContentJsonString;
-	GetJsonStringFromStruct<FRequest_Login>(LoginCredentials, ContentJsonString);
-
-	TSharedRef<IHttpRequest, ESPMode::ThreadSafe> Request = PostRequest("User/login", ContentJsonString);
-	Request->OnProcessRequestComplete().BindUObject(this, &AHttpService::SummaryResponse);
-	Send(Request);
 
 	FString loginEndpoint = "UserD/";
 	loginEndpoint.Append(LoginCredentials.username);
