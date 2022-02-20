@@ -72,17 +72,15 @@ struct FRequest_Login
 		FRequest_Login() {}
 };
 
-/*
------------------------Still not sure what login response should be
 USTRUCT()
 struct FResponse_Login
 {
 		GENERATED_BODY()
 		UPROPERTY() int userMainID;
+		UPROPERTY() int nickname;
 
 		FResponse_Login() {}
 };
-*/
 
 USTRUCT()
 struct FRequest_Server // SWITCH ACCOUNTS
@@ -305,6 +303,24 @@ struct FResponse_SpiralAbyssChallenge
 
 /****************RESPONSE HOLDERS*********************/
 USTRUCT()
+struct FResponse_LoginHolder
+{
+	GENERATED_BODY()
+		UPROPERTY() FResponse_Login Response_Login;
+
+	FResponse_LoginHolder() {}
+};
+
+USTRUCT()
+struct FResponse_ServerHolder
+{
+	GENERATED_BODY()
+		UPROPERTY() FResponse_Server Response_Server;
+
+	FResponse_ServerHolder() {}
+};
+
+USTRUCT()
 struct FResponse_SummaryHolder
 {
 	GENERATED_BODY()
@@ -403,6 +419,7 @@ public:
 
 	//SERVER LOGIN
 	void Login(FRequest_Login LoginCredentials);
+	void LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
 	//SERVER REQUEST RESPONSE
 	void getServer(FRequest_Server serverCredentials);
@@ -437,9 +454,13 @@ public:
 	void spiralAbyssChallengeResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
 public:
+	// FOR DISPLAY - LOGIN
+	FString userMainLoginID;
+	FString nicknameLogin;
+
 	// FOR DISPLAY - SERVER
-	FString userMainID;
-	FString nickname;
+	FString userMainServerID;
+	FString nicknameSwitchServer;
 
 	// FOR DISPLAY - SUMMARY
 	FString ACuli;

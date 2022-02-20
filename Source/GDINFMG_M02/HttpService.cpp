@@ -141,23 +141,41 @@ void AHttpService::GetStructFromJsonString(FHttpResponsePtr Response, StructType
 
 void AHttpService::Login(FRequest_Login LoginCredentials)
 {
-	/*
 	FString ContentJsonString;
-	GetJsonStringFromStruct<FRequest_Summary>(LoginCredentials, ContentJsonString);
+	GetJsonStringFromStruct<FRequest_Login>(LoginCredentials, ContentJsonString);
 
 	TSharedRef<IHttpRequest, ESPMode::ThreadSafe> Request = PostRequest("User/login", ContentJsonString);
 	Request->OnProcessRequestComplete().BindUObject(this, &AHttpService::SummaryResponse);
 	Send(Request);
-	*/
 
-	/*
 	FString loginEndpoint = "UserD/";
 	loginEndpoint.Append(LoginCredentials.username);
 	loginEndpoint.Append("/").Append(LoginCredentials.password);
 	TSharedRef<IHttpRequest, ESPMode::ThreadSafe> Request = GetRequest(loginEndpoint);
 	Request->OnProcessRequestComplete().BindUObject(this, &AHttpService::LoginResponse);
 	Send(Request);
-	*/
+}
+
+void AHttpService::LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
+{
+	if (!ResponseIsValid(Response, bWasSuccessful))
+		return;
+
+	FResponse_LoginHolder LoginResponse;
+	GetStructFromJsonString<FResponse_LoginHolder>(Response, LoginResponse);
+
+	TSharedPtr<FJsonObject> JsonObj = MakeShareable(new FJsonObject());
+
+	FString dataString = Response->GetContentAsString();
+	TSharedRef<TJsonReader<TCHAR>> Reader = TJsonReaderFactory<TCHAR>::Create(*dataString);
+	if (FJsonSerializer::Deserialize(Reader, JsonObj))
+	{
+		TArray<TSharedPtr<FJsonValue>> ArrayObj = JsonObj->GetArrayField("data");
+
+		//store results to inClass variables
+		userMainLoginID = ArrayObj.Last()->AsObject()->GetStringField("user_main_ID");
+		nicknameLogin = ArrayObj.Last()->AsObject()->GetStringField("characterNickname");
+	}
 }
 
 void AHttpService::getServer(FRequest_Server ServerCredentials)
@@ -176,8 +194,8 @@ void AHttpService::ServerResponse(FHttpRequestPtr Request, FHttpResponsePtr Resp
 	if (!ResponseIsValid(Response, bWasSuccessful))
 		return;
 
-	FResponse_WorldExploHolder worldExploResponse;
-	GetStructFromJsonString<FResponse_WorldExploHolder>(Response, worldExploResponse);
+	FResponse_ServerHolder ServerResponse;
+	GetStructFromJsonString<FResponse_ServerHolder>(Response, ServerResponse);
 
 	TSharedPtr<FJsonObject> JsonObj = MakeShareable(new FJsonObject());
 
@@ -188,8 +206,8 @@ void AHttpService::ServerResponse(FHttpRequestPtr Request, FHttpResponsePtr Resp
 		TArray<TSharedPtr<FJsonValue>> ArrayObj = JsonObj->GetArrayField("data");
 
 		//store results to inClass variables
-		userMainID = ArrayObj.Last()->AsObject()->GetStringField("user_main_ID");
-		nickname = ArrayObj.Last()->AsObject()->GetStringField("characterNickname");
+		userMainServerID = ArrayObj.Last()->AsObject()->GetStringField("user_main_ID");
+		nicknameSwitchServer = ArrayObj.Last()->AsObject()->GetStringField("characterNickname");
 	}
 
 	//UE_LOG(LogTemp, Warning, TEXT("%s"), *Response->GetContentAsString());
