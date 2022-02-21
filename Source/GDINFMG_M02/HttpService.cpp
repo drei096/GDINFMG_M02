@@ -361,7 +361,7 @@ void AHttpService::characterCollectionResponse(FHttpRequestPtr Request, FHttpRes
 			tempHolder.level = ArrayObj[i]->AsObject()->GetStringField("level");
 			tempHolder.rarity = ArrayObj[i]->AsObject()->GetStringField("rarity");
 
-			ownedCharacterList.push_back(tempHolder);
+			ownedCharacterList.Add(tempHolder);
 		}
 	}
 
@@ -411,7 +411,7 @@ void AHttpService::characterAttributesResponse(FHttpRequestPtr Request, FHttpRes
 			tempHolder.artifactName = ArrayObj[i]->AsObject()->GetStringField("artifactName");
 			tempHolder.artifactRarity = ArrayObj[i]->AsObject()->GetStringField("artifactRarity");
 
-			ownedArtifactList.push_back(tempHolder);
+			ownedArtifactList.Add(tempHolder);
 		}
 
 		//NOTE: OWNED ARTIFACT LIST INDEX REFERENCE: [0] = ARTIFACT 1
@@ -531,7 +531,7 @@ void AHttpService::spiralAbyssChallengeResponse(FHttpRequestPtr Request, FHttpRe
 			tempHolder.floor = ArrayObj[i]->AsObject()->GetStringField("floor");
 			tempHolder.stars = ArrayObj[i]->AsObject()->GetStringField("stars");
 
-			spiralAbyssChallengeData.push_back(tempHolder);
+			spiralAbyssChallengeData.Add(tempHolder);
 		}
 		
 		//NOTE: CHALLENGE LIST INDEX REFERENCE:      [0] = CHALLENGE 9-1

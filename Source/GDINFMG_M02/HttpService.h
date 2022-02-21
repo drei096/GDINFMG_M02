@@ -12,62 +12,62 @@
 
 
 
-USTRUCT()
+USTRUCT(BlueprintType , meta = (BlueprintSpawnableComponent))
 struct FOwnedCharacterData
 {
 		GENERATED_BODY()
-		UPROPERTY() FString constellationLevel;
-		UPROPERTY() FString level;
-		UPROPERTY() FString name;
-		UPROPERTY() FString rarity;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FOwnedCharacterData") FString constellationLevel;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FOwnedCharacterData") FString level;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FOwnedCharacterData") FString name;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FOwnedCharacterData") FString rarity;
 
 		FOwnedCharacterData() {}
 };
 
-USTRUCT()
+USTRUCT(BlueprintType, meta = (BlueprintSpawnableComponent))
 struct FArtifactData
 {
 		GENERATED_BODY()
-		UPROPERTY() FString artif_description;
-		UPROPERTY() FString artifactName;
-		UPROPERTY() FString artifactRarity;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FArtifactData") FString artif_description;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FArtifactData") FString artifactName;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FArtifactData") FString artifactRarity;
 
 		FArtifactData() {}
 };
 
-USTRUCT()
+USTRUCT(BlueprintType, meta = (BlueprintSpawnableComponent))
 struct FChallengeData
 {
 		GENERATED_BODY()
-		UPROPERTY() FString floor;
-		UPROPERTY() FString chamber;
-		UPROPERTY() FString stars;
-		UPROPERTY() FString character_name1H1;
-		UPROPERTY() FString level1H1;
-		UPROPERTY() FString character_name2H1;
-		UPROPERTY() FString level2H1;
-		UPROPERTY() FString character_name3H1;
-		UPROPERTY() FString level3H1;
-		UPROPERTY() FString character_name4H1;
-		UPROPERTY() FString level4H1;
-		UPROPERTY() FString character_name1H2;
-		UPROPERTY() FString level1H2;
-		UPROPERTY() FString character_name2H2;
-		UPROPERTY() FString level2H2;
-		UPROPERTY() FString character_name3H2;
-		UPROPERTY() FString level3H2;
-		UPROPERTY() FString character_name4H2;
-		UPROPERTY() FString level4H2;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FChallengeData") FString floor;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FChallengeData") FString chamber;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FChallengeData") FString stars;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FChallengeData") FString character_name1H1;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FChallengeData") FString level1H1;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FChallengeData") FString character_name2H1;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FChallengeData") FString level2H1;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FChallengeData") FString character_name3H1;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FChallengeData") FString level3H1;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FChallengeData") FString character_name4H1;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FChallengeData") FString level4H1;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FChallengeData") FString character_name1H2;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FChallengeData") FString level1H2;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FChallengeData") FString character_name2H2;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FChallengeData") FString level2H2;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FChallengeData") FString character_name3H2;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FChallengeData") FString level3H2;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FChallengeData") FString character_name4H2;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FChallengeData") FString level4H2;
 
 		FChallengeData() {}
 };
 
-USTRUCT()
+USTRUCT(BlueprintType, meta = (BlueprintSpawnableComponent))
 struct FRequest_Login
 {
 		GENERATED_BODY()
-		UPROPERTY() FString username; //username or email
-		UPROPERTY() FString password;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FRequest_Login") FString username; //username or email
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FRequest_Login") FString password;
 
 		FRequest_Login() {}
 };
@@ -82,12 +82,12 @@ struct FResponse_Login
 		FResponse_Login() {}
 };
 
-USTRUCT()
+USTRUCT(BlueprintType, meta = (BlueprintSpawnableComponent))
 struct FRequest_Server // SWITCH ACCOUNTS
 {
 		GENERATED_BODY()
-		UPROPERTY() int serverID;
-		UPROPERTY() int accountID;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FRequest_Server") int serverID;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FRequest_Server") int accountID;
 
 		FRequest_Server() {}
 };
@@ -102,11 +102,11 @@ struct FResponse_Server // SWITCH ACCOUNTS
 		FResponse_Server() {}
 };
 
-USTRUCT()
+USTRUCT(BlueprintType, meta = (BlueprintSpawnableComponent))
 struct FRequest_Summary
 {
 		GENERATED_BODY()
-        UPROPERTY() int userMainID;
+        UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FRequest_Summary") int userMainID;
 
 		FRequest_Summary() {}
 };
@@ -133,12 +133,12 @@ struct FResponse_Summary
 		FResponse_Summary() {}
 };
 
-USTRUCT()
+USTRUCT(BlueprintType, meta = (BlueprintSpawnableComponent))
 struct FRequest_WorldExplo
 {
 		GENERATED_BODY()
-		UPROPERTY() int userMainID;
-		UPROPERTY() FString region;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FRequest_WorldExplo") int userMainID;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FRequest_WorldExplo") FString region;
 
 		FRequest_WorldExplo() {}
 };
@@ -156,11 +156,11 @@ struct FResponse_WorldExplo
 		FResponse_WorldExplo() {}
 };
 
-USTRUCT()
+USTRUCT(BlueprintType, meta = (BlueprintSpawnableComponent))
 struct FRequest_SereniteaPot
 {
 	GENERATED_BODY()
-		UPROPERTY() int userMainID;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FRequest_Teapot") int userMainID;
 
 	FRequest_SereniteaPot() {}
 };
@@ -178,11 +178,11 @@ struct FResponse_SereniteaPot
 	FResponse_SereniteaPot() {}
 };
 
-USTRUCT()
+USTRUCT(BlueprintType, meta = (BlueprintSpawnableComponent))
 struct FRequest_CharacterCollection
 {
 	GENERATED_BODY()
-		UPROPERTY() int userMainID;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FRequest_CharacterCollection") int userMainID;
 
 	FRequest_CharacterCollection() {}
 };
@@ -199,12 +199,12 @@ struct FResponse_CharacterCollection
 	FResponse_CharacterCollection() {}
 };
 
-USTRUCT()
+USTRUCT(BlueprintType, meta = (BlueprintSpawnableComponent))
 struct FRequest_CharacterAttributes
 {
 		GENERATED_BODY()
-		UPROPERTY() int userMainID;
-		UPROPERTY() int ownedCharacterID;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FRequest_CharAttribs") int userMainID;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FRequest_CharAttribs") int ownedCharacterID;
 
 		FRequest_CharacterAttributes() {}
 };
@@ -229,11 +229,11 @@ struct FResponse_CharacterAttributes
 	FResponse_CharacterAttributes() {}
 };
 
-USTRUCT()
+USTRUCT(BlueprintType, meta = (BlueprintSpawnableComponent))
 struct FRequest_SpiralAbyssSummary
 {
 	GENERATED_BODY()
-		UPROPERTY() int userMainID;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FRequest_SpiralSummary") int userMainID;
 
 	FRequest_SpiralAbyssSummary() {}
 };
@@ -256,13 +256,13 @@ struct FResponse_SpiralAbyssSummary
 	FResponse_SpiralAbyssSummary() {}
 };
 
-USTRUCT()
+USTRUCT(BlueprintType, meta = (BlueprintSpawnableComponent))
 struct FRequest_SpiralAbyssChallenge
 {
 	GENERATED_BODY()
-		UPROPERTY() int abyssID;
-		UPROPERTY() int floor;
-		UPROPERTY() int chamber;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FRequest_SpiralChallenge") int abyssID;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FRequest_SpiralChallenge") int floor;
+		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FRequest_SpiralChallenge") int chamber;
 
 	FRequest_SpiralAbyssChallenge() {}
 };
@@ -386,7 +386,7 @@ struct FResponse_SpiralAbyssChallengeHolder
 /****************RESPONSE HOLDERS*********************/
 
 
-UCLASS(Blueprintable, hideCategories = (Rendering, Replication, Input, Actor, "Actor Tick"))
+UCLASS(Blueprintable, hideCategories = (Rendering, Replication, Input, Actor, "Actor Tick"), meta = (BlueprintSpawnableComponent))
 class GDINFMG_M02_API AHttpService : public AActor
 {
 	GENERATED_BODY()
@@ -418,39 +418,39 @@ public:
 	virtual void BeginPlay() override;
 
 	//SERVER LOGIN
-	void Login(FRequest_Login LoginCredentials);
+	UFUNCTION(BlueprintCallable) void Login(FRequest_Login LoginCredentials);
 	void LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
 	//SERVER REQUEST RESPONSE
-	void getServer(FRequest_Server serverCredentials);
+	UFUNCTION(BlueprintCallable) void getServer(FRequest_Server serverCredentials);
 	void ServerResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
 	//SUMMARY REQUEST RESPONSE
-	void getSummary(FRequest_Summary summaryCredentials);
+	UFUNCTION(BlueprintCallable) void getSummary(FRequest_Summary summaryCredentials);
 	void SummaryResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
 	//WORLD EXPLO REQUEST RESPONSE
-	void getWorldExploration(FRequest_WorldExplo worldExploCredentials);
+	UFUNCTION(BlueprintCallable) void getWorldExploration(FRequest_WorldExplo worldExploCredentials);
 	void worldExplorationResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
 	//SERENITEA POT REQUEST RESPONSE
-	void getSereniteaPot(FRequest_SereniteaPot sereniteaPotCredentials);
+	UFUNCTION(BlueprintCallable) void getSereniteaPot(FRequest_SereniteaPot sereniteaPotCredentials);
 	void sereniteaPotResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
 	//CHARACTER COLLECTION REQUEST RESPONSE
-	void getCharacterCollection(FRequest_CharacterCollection characterCollectionCredentials);
+	UFUNCTION(BlueprintCallable) void getCharacterCollection(FRequest_CharacterCollection characterCollectionCredentials);
 	void characterCollectionResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
 	//CHARACTER ATTRIBUTES REQUEST RESPONSE
-	void getCharacterAttributes(FRequest_CharacterAttributes characterAttributesCredentials);
+	UFUNCTION(BlueprintCallable) void getCharacterAttributes(FRequest_CharacterAttributes characterAttributesCredentials);
 	void characterAttributesResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
 	//SPIRAL ABYSS SUMMARY REQUEST RESPONSE
-	void getSpiralAbyssSummary(FRequest_SpiralAbyssSummary spiralAbyssSummaryCredentials);
+	UFUNCTION(BlueprintCallable) void getSpiralAbyssSummary(FRequest_SpiralAbyssSummary spiralAbyssSummaryCredentials);
 	void spiralAbyssSummaryResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
 	//SPIRAL ABYSS CHALLENGE REQUEST RESPONSE
-	void getSpiralAbyssChallenge(FRequest_SpiralAbyssChallenge spiralAbyssChallengeCredentials);
+	UFUNCTION(BlueprintCallable) void getSpiralAbyssChallenge(FRequest_SpiralAbyssChallenge spiralAbyssChallengeCredentials);
 	void spiralAbyssChallengeResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
 public:
@@ -491,7 +491,7 @@ public:
 	UPROPERTY(BlueprintReadWrite) FString visitorCount;
 
 	//FOR DISPLAY - CHARACTER COLLECTION
-	std::vector<FOwnedCharacterData> ownedCharacterList;
+	UPROPERTY(BlueprintReadWrite) TArray<FOwnedCharacterData> ownedCharacterList;
 
 	//FOR DISPLAY - CHARACTER ATTRIBUTES
 	UPROPERTY(BlueprintReadWrite) FString character_name;
@@ -501,7 +501,7 @@ public:
 	UPROPERTY(BlueprintReadWrite) FString weaponLevel;
 	UPROPERTY(BlueprintReadWrite) FString weaponName;
 	UPROPERTY(BlueprintReadWrite) FString weaponRarity;
-	std::vector<FArtifactData> ownedArtifactList;
+	UPROPERTY(BlueprintReadWrite) TArray<FArtifactData> ownedArtifactList;
 
 	/*
 	FString artif_description1;
@@ -533,7 +533,7 @@ public:
 	UPROPERTY(BlueprintReadWrite) FString strongSingleStrike;
 
 	//FOR DISPLAY - SPIRAL ABYSS CHALLENGE
-	std::vector<FChallengeData> spiralAbyssChallengeData;
+	UPROPERTY(BlueprintReadWrite) TArray<FChallengeData> spiralAbyssChallengeData;
 };
 
 
