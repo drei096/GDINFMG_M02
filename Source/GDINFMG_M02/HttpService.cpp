@@ -66,6 +66,12 @@ void AHttpService::BeginPlay()
 	//spiralAbyssChallengeCredentials.chamber = 1;
 	//spiralAbyssChallengeCredentials.floor = 9;
 	//getSpiralAbyssChallenge(spiralAbyssChallengeCredentials);
+
+	//TESTER CODE FOR LOGIN
+	FRequest_Login loginCredentials;
+	loginCredentials.username = "derpyderp";
+	loginCredentials.password = "derpderp123";
+	Login(loginCredentials);
 }
 
 void AHttpService::SetAuthorizationHash(FString Hash)
@@ -167,8 +173,12 @@ void AHttpService::LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Respo
 		TArray<TSharedPtr<FJsonValue>> ArrayObj = JsonObj->GetArrayField("data");
 
 		//store results to inClass variables
-		userMainLoginID = ArrayObj.Last()->AsObject()->GetStringField("user_main_ID");
-		nicknameLogin = ArrayObj.Last()->AsObject()->GetStringField("characterNickname");
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *Response->GetContentAsString());
+		
+		//userMainLoginID = ArrayObj.Last()->AsObject()->GetStringField("user_main_ID");
+		//nicknameLogin = ArrayObj.Last()->AsObject()->GetStringField("characterNickname");
+
+
 	}
 }
 
