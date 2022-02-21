@@ -377,6 +377,8 @@ void AHttpService::characterCollectionResponse(FHttpRequestPtr Request, FHttpRes
 
 			ownedCharacterList.Add(tempHolder);
 		}
+
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *Response->GetContentAsString());
 	}
 
 	//UE_LOG(LogTemp, Warning, TEXT("%s"), *ownedCharacterList[0].name);
