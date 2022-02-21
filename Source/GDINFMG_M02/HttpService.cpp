@@ -68,10 +68,10 @@ void AHttpService::BeginPlay()
 	//getSpiralAbyssChallenge(spiralAbyssChallengeCredentials);
 
 	//TESTER CODE FOR LOGIN
-	FRequest_Login loginCredentials;
-	loginCredentials.username = "derpyderp";
-	loginCredentials.password = "derpderp123";
-	Login(loginCredentials);
+	//FRequest_Login loginCredentials;
+	//loginCredentials.username = "derpyderp1";
+	//loginCredentials.password = "derpderp1233";
+	//Login(loginCredentials);
 }
 
 void AHttpService::SetAuthorizationHash(FString Hash)
@@ -154,6 +154,7 @@ void AHttpService::Login(FRequest_Login LoginCredentials)
 	TSharedRef<IHttpRequest, ESPMode::ThreadSafe> Request = GetRequest(loginEndpoint);
 	Request->OnProcessRequestComplete().BindUObject(this, &AHttpService::LoginResponse);
 	Send(Request);
+	UE_LOG(LogTemp, Warning, TEXT("AAAAA: %s, BBBBB:%s"), *LoginCredentials.username, *LoginCredentials.password);
 }
 
 void AHttpService::LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
@@ -174,10 +175,12 @@ void AHttpService::LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Respo
 
 		//store results to inClass variables
 		UE_LOG(LogTemp, Warning, TEXT("%s"), *Response->GetContentAsString());
-		
-		//userMainLoginID = ArrayObj.Last()->AsObject()->GetStringField("user_main_ID");
-		//nicknameLogin = ArrayObj.Last()->AsObject()->GetStringField("characterNickname");
 
+		if(ArrayObj.Num() > 0)
+		{
+			userMainLoginID = ArrayObj.Last()->AsObject()->GetStringField("user_main_ID");
+			nicknameLogin = ArrayObj.Last()->AsObject()->GetStringField("characterNickname");
+		}
 
 	}
 }
@@ -191,6 +194,7 @@ void AHttpService::getServer(FRequest_Server ServerCredentials)
 	TSharedRef<IHttpRequest, ESPMode::ThreadSafe> Request = GetRequest(serverEndpoint);
 	Request->OnProcessRequestComplete().BindUObject(this, &AHttpService::ServerResponse);
 	Send(Request);
+
 }
 
 void AHttpService::ServerResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
