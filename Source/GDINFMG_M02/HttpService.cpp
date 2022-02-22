@@ -217,8 +217,13 @@ void AHttpService::ServerResponse(FHttpRequestPtr Request, FHttpResponsePtr Resp
 		TArray<TSharedPtr<FJsonValue>> ArrayObj = JsonObj->GetArrayField("data");
 
 		//store results to inClass variables
-		userMainServerID = ArrayObj.Last()->AsObject()->GetStringField("user_main_ID");
-		nicknameSwitchServer = ArrayObj.Last()->AsObject()->GetStringField("characterNickname");
+		if(ArrayObj.Num() > 0)
+		{
+			userMainLoginID = ArrayObj.Last()->AsObject()->GetStringField("user_main_ID");
+			nicknameLogin = ArrayObj.Last()->AsObject()->GetStringField("characterNickname");
+			abyss_ID = ArrayObj.Last()->AsObject()->GetStringField("abyss_ID");
+		}
+		
 	}
 
 	//UE_LOG(LogTemp, Warning, TEXT("%s"), *Response->GetContentAsString());
