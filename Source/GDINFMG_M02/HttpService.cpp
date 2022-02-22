@@ -180,6 +180,9 @@ void AHttpService::LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Respo
 		{
 			userMainLoginID = ArrayObj.Last()->AsObject()->GetStringField("user_main_ID");
 			nicknameLogin = ArrayObj.Last()->AsObject()->GetStringField("characterNickname");
+			abyss_ID = ArrayObj.Last()->AsObject()->GetStringField("abyss_ID");
+
+			//UE_LOG(LogTemp, Warning, TEXT("%s"), *Response->GetContentAsString());
 		}
 
 	}
@@ -485,12 +488,11 @@ void AHttpService::spiralAbyssSummaryResponse(FHttpRequestPtr Request, FHttpResp
 
 void AHttpService::getSpiralAbyssChallenge(FRequest_SpiralAbyssChallenge spiralAbyssChallengeCredentials)
 {
+	UE_LOG(LogTemp, Warning, TEXT("AAAAAAAAAA: %s"), *abyss_ID);
+
 	FString spiralAbyssChallengeEndpoint = "UserG/";
-	spiralAbyssChallengeEndpoint.Append(FString::FromInt(spiralAbyssChallengeCredentials.floor));
-	spiralAbyssChallengeEndpoint.Append("/");
-	spiralAbyssChallengeEndpoint.Append(FString::FromInt(spiralAbyssChallengeCredentials.chamber));
-	spiralAbyssChallengeEndpoint.Append("/");
 	spiralAbyssChallengeEndpoint.Append(FString::FromInt(spiralAbyssChallengeCredentials.abyssID));
+	
 
 	TSharedRef<IHttpRequest, ESPMode::ThreadSafe> Request = GetRequest(spiralAbyssChallengeEndpoint);
 	Request->OnProcessRequestComplete().BindUObject(this, &AHttpService::spiralAbyssChallengeResponse);
@@ -557,7 +559,8 @@ void AHttpService::spiralAbyssChallengeResponse(FHttpRequestPtr Request, FHttpRe
 		//											 and so on...
 	}
 
-	//UE_LOG(LogTemp, Warning, TEXT("%s"), *Response->GetContentAsString());
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *abyss_ID);
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *Response->GetContentAsString());
 	//UE_LOG(LogTemp, Warning, TEXT("AAAAAA: %d"), ArrayObj.Num());
 	//UE_LOG(LogTemp, Warning, TEXT("%s"), *spiralAbyssChallengeData[0].level2H1);
 }
