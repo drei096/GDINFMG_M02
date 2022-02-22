@@ -178,11 +178,19 @@ void AHttpService::LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Respo
 
 		if(ArrayObj.Num() > 0)
 		{
-			userMainLoginID = ArrayObj.Last()->AsObject()->GetStringField("user_main_ID");
-			nicknameLogin = ArrayObj.Last()->AsObject()->GetStringField("characterNickname");
-			abyss_ID = ArrayObj.Last()->AsObject()->GetStringField("abyss_ID");
+			canLogin = true;
 
+			userMainLoginID = ArrayObj[0]->AsObject()->GetStringField("user_main_ID");
+			nicknameLogin = ArrayObj[0]->AsObject()->GetStringField("characterNickname");
+			abyss_ID = ArrayObj[0]->AsObject()->GetStringField("abyss_ID");
+			userMainAccountID = ArrayObj.Last()->AsObject()->GetStringField("account_ID");
+
+			//UE_LOG(LogTemp, Warning, TEXT("%s"), *userMainAccountID);
 			//UE_LOG(LogTemp, Warning, TEXT("%s"), *Response->GetContentAsString());
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("AAAAAAAAAAAAAA"));
 		}
 
 	}
@@ -191,8 +199,10 @@ void AHttpService::LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Respo
 void AHttpService::getServer(FRequest_Server ServerCredentials)
 {
 	FString serverEndpoint = "UserE/";
-	serverEndpoint.Append(FString::FromInt(ServerCredentials.serverID));
-	serverEndpoint.Append("/").Append(FString::FromInt(ServerCredentials.accountID));
+	serverEndpoint.Append(FString::FromInt(ServerCredentials.accountID));
+	serverEndpoint.Append("/").Append(FString::FromInt(ServerCredentials.serverID));
+
+	UE_LOG(LogTemp, Warning, TEXT("%d"), ServerCredentials.serverID);
 
 	TSharedRef<IHttpRequest, ESPMode::ThreadSafe> Request = GetRequest(serverEndpoint);
 	Request->OnProcessRequestComplete().BindUObject(this, &AHttpService::ServerResponse);
@@ -223,7 +233,14 @@ void AHttpService::ServerResponse(FHttpRequestPtr Request, FHttpResponsePtr Resp
 			nicknameLogin = ArrayObj.Last()->AsObject()->GetStringField("characterNickname");
 			abyss_ID = ArrayObj.Last()->AsObject()->GetStringField("abyss_ID");
 		}
-		
+		else
+		{
+			userMainLoginID = "";
+			nicknameLogin = "";
+		}
+
+		//UE_LOG(LogTemp, Warning, TEXT("%s"), *userMainLoginID);
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *Response->GetContentAsString());
 	}
 
 	//UE_LOG(LogTemp, Warning, TEXT("%s"), *Response->GetContentAsString());

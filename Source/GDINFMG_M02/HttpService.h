@@ -458,9 +458,13 @@ public:
 	UPROPERTY(BlueprintReadWrite) FString userMainLoginID;
 	UPROPERTY(BlueprintReadWrite) FString nicknameLogin;
 
+	//FOR CHECKING - LOGIN
+	UPROPERTY(BlueprintReadWrite) bool canLogin = false;
+
 	// FOR DISPLAY - SERVER
 	UPROPERTY(BlueprintReadWrite) FString userMainServerID;
 	UPROPERTY(BlueprintReadWrite) FString nicknameSwitchServer;
+	UPROPERTY(BlueprintReadWrite) FString userMainAccountID;
 
 	// FOR DISPLAY - SUMMARY
 	UPROPERTY(BlueprintReadWrite) FString ACuli;
